@@ -5,17 +5,31 @@ from streamlit_extras.let_it_rain import rain
 from streamlit_extras.stoggle import stoggle
 from streamlit_toggle import st_toggle_switch
 import datetime
-from io import StringIO
+from io import StringIO,BytesIO
+# from pyxlsb import open_workbook as open_xlsb
 
 
 st.set_page_config(  # Alternate names: setup_page, page, layout
     layout="wide",  # Can be "centered" or "wide". In the future also "dashboard", etc.
-    initial_sidebar_state="auto",  # Can be "auto", "expanded", "collapsed"
+    initial_sidebar_state="collapsed",  # Can be "auto", "expanded", "collapsed"
     page_title=None,  # String or None. Strings get appended with "• Streamlit".
-    page_icon=None,  # String
-    # , anything supported by st.image, or None.
+    page_icon="🛤️",
+    # menu_items={
+    #     'Get Help': 'https://www.extremelycoolapp.com/help',
+    #     'Report a bug': "https://www.extremelycoolapp.com/bug",
+    #     'About': "# This is a header. This is an *extremely* cool app!"
+    # }
 )
 
+## hide streamlit main menu !
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+##
 st.write("## Garmin Activity hiking")
 
 @st.cache
@@ -33,11 +47,16 @@ def data_upload():
     return df
 
 def print_chart(df):
+    # print(df)
     d = {'Data': df['Data'].dt.strftime('%Y-%m'), 'Dystans': df['Dystans'].values}
     Datafram_chart = pd.DataFrame(data=d)
     Datafram_chart = Datafram_chart.groupby(by="Data").sum()
     st.bar_chart(Datafram_chart)
 
+def to_excel(df):
+    df.to_excel("Hiking.xlsx",
+                sheet_name='Hiking')
+    return df
 
 df = data_upload()
 # print(df)
@@ -46,7 +65,7 @@ distans2023 = round(df.loc[df['Data'].dt.strftime('%Y') == '2023', 'Dystans'].su
 distance = round(df['Dystans'].sum(), 2)
 Best_alt = df['Maksymalna wysokość'].max()
 best_trip =  df['Dystans'].max()
-
+avg_dist  = round(df['Dystans'].mean(),1)
 # Nie działa za dobrze
 # filtered_df = dataframe_explorer(df)
 #st.dataframe(filtered_df, use_container_width=True)
@@ -93,10 +112,20 @@ st.dataframe(df, use_container_width=True)
 # podusmwanie
 st.info(len(df))
 
-col1, col2 = st.columns(2)
+col1, col2 , col3, col4 ,col5 = st.columns(5)
 with col1:
     if st.button('Refresh', key=1):
         df = data_upload()
+
+with col2:
+    to_excel(df)
+    with open("Hiking.xlsx", "rb") as file:
+        btn = st.download_button(
+            label="Download Excel",
+            data=file,
+            file_name="Hiking.xlsx",
+            mime="image/png"
+        )
 
 if isSnow:
     rain(
@@ -110,9 +139,8 @@ st.header(f' Total distans in 2022  _:green[{distans2022}] km_ 💪🗻🗻🗻 
 st.header(f' Total distans in 2023  _:blue[{distans2023}] km_ 👽')
 st.header(f' Total distans _:red[{distance}] km_ 🛤️💪 ')
 st.header(f' Best altitude _:orange[{Best_alt}]m_ 💪 🌋 ⬆️ ')
-st.header(f' Best distance on the trip _:red[{best_trip}] km_ 🛤️ ')
-
-
+st.header(f' Best distance on the trip _:red[{best_trip}] km_ 🚵‍♀️ 🚴🏻‍♂️ ')
+st.header(f' Avg distance on the trip _:blue[{avg_dist}] km_ ️ 🏃')
 
 
 print_chart(df)
