@@ -44,6 +44,7 @@ def data_upload():
     df = df.astype({"Maksymalna wysokość":"int","Kalorie":"int"})
     df['Data'] = pd.to_datetime(df['Data'].str.slice(0, 10), format='%Y-%m-%d')
     df = df.sort_values(by=['Data'], ascending=False)
+    df = df.reset_index(drop=True)
     df.index = df.index + 1
     return df
 
