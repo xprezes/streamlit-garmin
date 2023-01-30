@@ -1,3 +1,6 @@
 pandas~=1.5.2
 streamlit~=1.17.0
 streamlit-extras~=0.2.5
+pyxlsb~=1.0.10
+XlsxWriter~=3.0.7
+
