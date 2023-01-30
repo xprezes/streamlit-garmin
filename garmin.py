@@ -44,7 +44,7 @@ def data_upload():
         , 'Maksymalna wysokość'])
     df = df.astype({"Maksymalna wysokość":"int","Kalorie":"int"})
     df['Data'] = pd.to_datetime(df['Data'].str.slice(0, 10), format='%Y-%m-%d')
-    df.sort_values(by=['Data'], ascending=False)
+    df = df.sort_values(by=['Data'], ascending=False)
     return df
 
 def print_chart(df):
