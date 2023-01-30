@@ -37,7 +37,6 @@ def data_upload():
     fileToView = 'AcuGarminData.csv'
     df = pd.read_csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vSoaEtjUeoTjzneWdwZR9d5qA_unCnYc5tW5f-9y1jbvjQx7TkS0Qby7LtLjklvg-ak7GZ2H3o4YOO6/pub?gid=0&single=true&output=csv')
     # df = pd.read_csv(fileToView)
-    df.index = df.index + 1
     df = df.replace(r',', '', regex=True)
     df = df.filter(items=['Typ aktywności', 'Data', 'Ulubiony', 'Tytuł', 'Dystans', 'Kalorie'
         , 'Czas', 'Średnie tętno', 'Maksymalne tętno', 'Całkowity wznios'
@@ -45,6 +44,7 @@ def data_upload():
     df = df.astype({"Maksymalna wysokość":"int","Kalorie":"int"})
     df['Data'] = pd.to_datetime(df['Data'].str.slice(0, 10), format='%Y-%m-%d')
     df = df.sort_values(by=['Data'], ascending=False)
+    df.index = df.index + 1
     return df
 
 def print_chart(df):
