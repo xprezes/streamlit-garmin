@@ -36,7 +36,7 @@ st.write("## Garmin Activity hiking")
 @st.cache
 def data_upload():
     fileToView = 'AcuGarminData.csv'
-    df = pd.read_csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vSoaEtjUeoTjzneWdwZR9d5qA_unCnYc5tW5f-9y1jbvjQx7TkS0Qby7LtLjklvg-ak7GZ2H3o4YOO6/pub?gid=0&single=true&output=csv')
+    df = pd.read_csv('https://docs.google.com/spreadsheets/d/e/2PACX-1vSoaEtjUeoTjzneWdwZR9d5qA_unCnYc5tW5f-9y1jbvjQx7TkS0Qby7LtLjklvg-ak7GZ2H3o4YOO6/pub?gid=454675189&single=true&output=csv')
     # df = pd.read_csv(fileToView)
     df = df.replace(r',', '', regex=True)
     df = df.filter(items=['Typ aktywności', 'Data', 'Ulubiony', 'Tytuł', 'Dystans', 'Kalorie'
