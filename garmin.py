@@ -40,7 +40,7 @@ def data_upload():
     # df = pd.read_csv(fileToView)
     df = df.replace(r',', '', regex=True)
     df = df.filter(items=['Typ aktywności', 'Data', 'Ulubiony', 'Tytuł', 'Dystans', 'Kalorie'
-        , 'Czas', 'Średnie tętno', 'Maksymalne tętno', 'Całkowity wznios'
+        , 'Czas', 'Średnie tętno', 'Maksymalne tętno', 'Wznios'
         , 'Maksymalna wysokość'])
     df = df.astype({"Maksymalna wysokość":"int","Kalorie":"int"})
     df['Data'] = pd.to_datetime(df['Data'].str.slice(0, 10), format='%Y-%m-%d')
