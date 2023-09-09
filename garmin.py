@@ -42,7 +42,7 @@ def data_upload():
     df = df.filter(items=['Typ aktywności', 'Data', 'Ulubiony', 'Tytuł', 'Dystans', 'Kalorie'
         , 'Czas', 'Średnie tętno', 'Maksymalne tętno', 'Wznios'
         , 'Maksymalna wysokość'])
-    df = df.astype({"Maksymalna wysokość":"int","Kalorie":"int"})
+    df = df.astype({"Maksymalna wysokość":"int","Kalorie":"int","Wznios":"int"})
     df['Data'] = pd.to_datetime(df['Data'].str.slice(0, 10), format='%Y-%m-%d')
     df = df.sort_values(by=['Data'], ascending=False)
     df = df.reset_index(drop=True)
@@ -166,7 +166,7 @@ with col1:
         # Can be used wherever a "file-like" object is accepted:
         df = pd.read_csv(uploaded_file)
         df = df.filter(items=['Typ aktywności', 'Data', 'Ulubiony', 'Tytuł', 'Dystans', 'Kalorie'
-            , 'Czas', 'Średnie tętno', 'Maksymalne tętno', 'Całkowity wznios'
+            , 'Czas', 'Średnie tętno', 'Maksymalne tętno', 'Wznios'
             , 'Maksymalna wysokość'])
 
         df = df.replace(r',', '', regex=True)
